@@ -12,13 +12,13 @@
 
     - name: clone the html file from git
       git:
-        repo: "repo name"
+        repo: "https://github.com/SWChan01/cse356_hw1.git"
         dest: /var/www/hw1
         update: yes
 
     - name: copy config file to /etc/nginx/sites-available
       copy:
-        src: /var/www/hw1/hw1.com
+        src: /var/www/hw1/nginx.conf
         dest: /etc/nginx/sites-available/hw1.com
 
 
