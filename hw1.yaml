@@ -1,0 +1,39 @@
+---
+- name: automate hw0
+  hosts: hw1
+  become: yes
+
+  tasks:
+    - name: install nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: clone the html file from git
+      git:
+        repo: "repo name"
+        dest: /var/www/hw1
+        update: yes
+
+    - name: copy config file to /etc/nginx/sites-available
+      copy:
+        src: /var/www/hw1/hw1.com
+        dest: /etc/nginx/sites-available/hw1.com
+
+
+    - name: setup symbol link
+      file:
+        src: /etc/nginx/sites-available/hw1.com 
+        dest: /etc/nginx/sites-enabled/hw1.com
+        state: link
+
+
+    - name: delete/unlink /etc/nginx/site-enabled/default
+      file:
+        path: /etc/nginx/site-enabled/default
+        state: absent
+
+
+    - name: restart nginx server
+      command: systemctl restart nginx
